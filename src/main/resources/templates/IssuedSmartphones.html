@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <title>Выданные смартфоны</title>
+</head>
+<body>
+
+<div class="text-center">
+    <header th:insert="~{Head :: copy}"></header>
+</div>
+
+<script>
+
+    function f(index) {
+
+        if(document.getElementById('myForm' + index).style.visibility==='collapse'){
+            document.getElementById('myForm' + index).style.visibility='visible';
+        }else {
+            document.getElementById('myForm' + index).style.visibility='collapse';
+        }
+    }
+
+</script>
+
+<table class="table" th:each="issued : ${issuedList}" >
+
+    <tr th:onclick="'f(\'' + ${issued.getId()} + '\');'" >
+        <td th:text="${issued.getFIO()}"></td>
+    </tr>
+
+    <tr style="visibility:collapse;" th:id="'myForm' + ${issued.getId()}">
+        <td>
+            <table class="table table-hover">
+
+                <thead>
+
+                <tr>
+                    <th scope="col" style="width: 50px">№</th>
+                    <th scope="col"  style="width: 80px">№ Акта</th>
+                    <th scope="col" style="width: 200px">Imei1</th>
+                    <th scope="col" style="width: 200px">Imei2</th>
+                    <th scope="col" style="width: 200px">Вид</th>
+                    <th scope="col" style="width: 200px">Причина</th>
+                    <th scope="col" style="width: 200px">Дата акта</th>
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                <tr>
+                    <td th:text="${issued.getId()}"  style="width: 50px"></td>
+                    <td th:text="${issued.getNumAct()}"  style="width: 80px"></td>
+                    <td th:text="${issued.getImei1()}" style="width: 200px"></td>
+                    <td th:text="${issued.getImei2()}" style="width: 200px"></td>
+                    <td th:text="${issued.getType()}" style="width: 200px"></td>
+                    <td th:text="${issued.getReason()}" style="width: 200px"></td>
+                    <td th:text="${issued.getDateCreate()}" style="width: 200px"></td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+
+</body>
+</html>
