@@ -15,9 +15,9 @@
 <script>
 
     function f(index) {
-
         if(document.getElementById('myForm' + index).style.visibility==='collapse'){
             document.getElementById('myForm' + index).style.visibility='visible';
+            //alert('myForm' + index);
         }else {
             document.getElementById('myForm' + index).style.visibility='collapse';
         }
@@ -25,49 +25,45 @@
 
 </script>
 
-<table class="table" th:each="issued : ${issuedList}" >
+<!--<table class="table">-->
+<!--    <tr style="visibility:collapse;" th:each="issued : ${issuedList}" th:id="'myForm' + ${issued.getId()}">-->
+<!--        <td>-->
 
-    <tr th:onclick="'f(\'' + ${issued.getId()} + '\');'" >
-        <td th:text="${issued.getFIO()}"></td>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col" style="width: 50px">№</th>
+        <th scope="col"  style="width: 80px">№ Акта</th>
+        <th scope="col"  style="width: 300px">ФОИ</th>
+        <th scope="col" style="width: 200px">Imei1</th>
+        <th scope="col" style="width: 200px">Imei2</th>
+        <th scope="col" style="width: 200px">Вид</th>
+        <th scope="col" style="width: 200px">Причина</th>
+        <th scope="col" style="width: 200px">Дата акта</th>
     </tr>
 
-    <tr style="visibility:collapse;" th:id="'myForm' + ${issued.getId()}">
-        <td>
-            <table class="table table-hover">
+    </thead>
 
-                <thead>
+    <tbody  th:each="issued : ${issuedList}" th:id="'myForm' + ${issued.getEmplId()}">
 
-                <tr>
-                    <th scope="col" style="width: 50px">№</th>
-                    <th scope="col"  style="width: 80px">№ Акта</th>
-                    <th scope="col" style="width: 200px">Imei1</th>
-                    <th scope="col" style="width: 200px">Imei2</th>
-                    <th scope="col" style="width: 200px">Вид</th>
-                    <th scope="col" style="width: 200px">Причина</th>
-                    <th scope="col" style="width: 200px">Дата акта</th>
-                </tr>
-
-                </thead>
-
-                <tbody>
-
-                <tr>
-                    <td th:text="${issued.getId()}"  style="width: 50px"></td>
-                    <td th:text="${issued.getNumAct()}"  style="width: 80px"></td>
-                    <td th:text="${issued.getImei1()}" style="width: 200px"></td>
-                    <td th:text="${issued.getImei2()}" style="width: 200px"></td>
-                    <td th:text="${issued.getType()}" style="width: 200px"></td>
-                    <td th:text="${issued.getReason()}" style="width: 200px"></td>
-                    <td th:text="${issued.getDateCreate()}" style="width: 200px"></td>
-                </tr>
-
-                </tbody>
-
-            </table>
-
-        </td>
+    <tr>
+        <td th:text="${issued.getId()}"  style="width: 50px"></td>
+        <td th:text="${issued.getNumAct()}"  style="width: 80px"></td>
+        <td th:text="${issued.getFIO()}"  style="width: 300px"></td>
+        <td th:text="${issued.getImei1()}" style="width: 200px"></td>
+        <td th:text="${issued.getImei2()}" style="width: 200px"></td>
+        <td th:text="${issued.getType()}" style="width: 200px"></td>
+        <td th:text="${issued.getReason()}" style="width: 200px"></td>
+        <td th:text="${issued.getDateCreate()}" style="width: 200px"></td>
     </tr>
+
+    </tbody>
+
 </table>
+
+<!--        </td>-->
+<!--    </tr>-->
+<!--</table>-->
 
 
 </body>

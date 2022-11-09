@@ -2,15 +2,17 @@ package com.example.generateact.Controller;
 
 import com.example.generateact.Entity.EmployeeList.EmployeeList;
 import com.example.generateact.Entity.IssuedSmartphones.IssuedSmartphones;
+import com.example.generateact.Entity.Test;
 import com.example.generateact.Entity.UserList.UserList;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.awt.print.PrinterJob;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -30,46 +32,57 @@ public class SelectController {
     @GetMapping("/issued")
     public String Issued(Model model) {
 
-//        List<EmployeeList> employees = entityManager.createNamedStoredProcedureQuery("GetEmployee").getResultList();
-//
-//        employees.forEach(employeeList -> {
-//            model.addAttribute("allUsers", employees);
-//
-//
-//        });
-
-        List<IssuedSmartphones> issuedList = entityManager.createNamedStoredProcedureQuery("GetIssuedSmartphones")
-                .setParameter("Empl",Long.parseLong("63")).getResultList();
-
-        //Запись в бд
-//        boolean ii = entityManager.createNamedStoredProcedureQuery("InsertIssuedSmartphones")
-//                .setParameter("Area","ПГУ ГПР")
-//                .setParameter("NumAct",1452)
-//                .setParameter("Empl",55)
-//                .setParameter("Imei1","355523/11/447896/7")
-//                .setParameter("Imei2","355524/11/447896/2")
-//                .setParameter("DateCreate",new Date())
-//                .setParameter("Type","new LocalDate[0]")
-//                .setParameter("Reason","new LocalDate[0]")
-//                .execute();
+        List<IssuedSmartphones> issuedList = entityManager.createNamedStoredProcedureQuery("GetIssuedSmartphones").getResultList();
 
         model.addAttribute("issuedList", issuedList);
 
         return "IssuedSmartphones";
     }
 
-    @RequestMapping(value = "/area", method = RequestMethod.POST)
-    public String saveProjectSubmission(Model model, @RequestParam("data") String data) {
+    @RequestMapping(value = "/inAct", method = RequestMethod.POST)
+    public String inAct(Model model, @RequestParam String fio, String imei1, String imei2, int numAct) {
 
-        String[] area = data.split(" ");
+        String[] fioArr =fio.split(" ");
 
         List<UserList> UserList = entityManager.createNamedStoredProcedureQuery("GetUser")
-                .setParameter("AREA", area[area.length-2]+" "+area[area.length-1]).getResultList();
+                .setParameter("AREA", fioArr[fioArr.length-2]+" "+fioArr[fioArr.length-1]).getResultList();
 
-        //model.addAttribute("allUsers", UserList);
-        System.out.println(data);
+        //Запись в бд
+        entityManager.createNamedStoredProcedureQuery("InsertIssuedSmartphones")
+                .setParameter("Area",fioArr[fioArr.length-2]+" "+fioArr[fioArr.length-1])
+                .setParameter("NumAct",numAct)
+                .setParameter("Empl",fioArr[0]+" "+fioArr[1]+" "+fioArr[2])
+                .setParameter("Imei1",imei1)
+                .setParameter("Imei2",imei2)
+                .setParameter("DateCreate",new Date())
+                .setParameter("Type","Выдача")
+                .setParameter("Reason","")
+                .execute();
 
-        return "index";
+        return "IssuedSmartphones";
+    }
+
+    @RequestMapping(value = "/outAct", method = RequestMethod.POST)
+    public String outAct(Model model, @RequestParam String fio, String imei1, String imei2, int numAct, String reason) {
+
+        String[] fioArr =fio.split(" ");
+
+        List<UserList> UserList = entityManager.createNamedStoredProcedureQuery("GetUser")
+                .setParameter("AREA", fioArr[fioArr.length-2]+" "+fioArr[fioArr.length-1]).getResultList();
+
+        //Запись в бд
+        entityManager.createNamedStoredProcedureQuery("InsertIssuedSmartphones")
+                .setParameter("Area",fioArr[fioArr.length-2]+" "+fioArr[fioArr.length-1])
+                .setParameter("NumAct",numAct)
+                .setParameter("Empl",fioArr[0]+" "+fioArr[1]+" "+fioArr[2])
+                .setParameter("Imei1",imei1)
+                .setParameter("Imei2",imei2)
+                .setParameter("DateCreate",new Date())
+                .setParameter("Type","Сдача")
+                .setParameter("Reason",reason)
+                .execute();
+
+        return "IssuedSmartphones";
     }
 
 

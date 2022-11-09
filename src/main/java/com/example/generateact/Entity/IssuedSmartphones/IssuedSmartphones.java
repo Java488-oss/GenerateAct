@@ -5,13 +5,15 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
-@NamedStoredProcedureQuery(name = "GetIssuedSmartphones", procedureName = "GetIssuedSmartphones", resultClasses = IssuedSmartphones.class, parameters = {@StoredProcedureParameter(name = "Empl", mode = ParameterMode.IN, type = Long.class) })
+@NamedStoredProcedureQuery(name = "GetIssuedSmartphones", procedureName = "GetIssuedSmartphones",
+        resultClasses = IssuedSmartphones.class)
+//, parameters = {@StoredProcedureParameter(name = "Empl", mode = ParameterMode.IN, type = Long.class) })
 
 //Запись в бд
 @NamedStoredProcedureQuery(name = "InsertIssuedSmartphones", procedureName = "InsertIssuedSmartphones", resultClasses = IssuedSmartphones.class, parameters = {
         @StoredProcedureParameter(name = "Area", mode = ParameterMode.IN, type = String.class),
         @StoredProcedureParameter(name = "NumAct", mode = ParameterMode.IN, type = Integer.class),
-        @StoredProcedureParameter(name = "Empl", mode = ParameterMode.IN, type = Integer.class),
+        @StoredProcedureParameter(name = "Empl", mode = ParameterMode.IN, type = String.class),
         @StoredProcedureParameter(name = "Imei1", mode = ParameterMode.IN, type = String.class),
         @StoredProcedureParameter(name = "Imei2", mode = ParameterMode.IN, type = String.class),
         @StoredProcedureParameter(name = "DateCreate", mode = ParameterMode.IN, type = Date.class),
@@ -29,6 +31,7 @@ public class IssuedSmartphones {
     @Column(name = "id", nullable = false)
     private Long id;
     private int NumAct;
+    private int EmplId;
     private String Imei1;
     private String Imei2;
     private String FIO;
@@ -107,5 +110,13 @@ public class IssuedSmartphones {
 
     public void setReason(String reason) {
         Reason = reason;
+    }
+
+    public int getEmplId() {
+        return EmplId;
+    }
+
+    public void setEmplId(int emplId) {
+        EmplId = emplId;
     }
 }

@@ -8,27 +8,102 @@
     <link th:href="@{/css/main.css}" rel="stylesheet">
 </head>
 
-
 <body>
-<div class="text-center">
+
+<div class="text-center" style="margin: 20px 0 20px">
     <header th:insert="~{Head :: copy}"></header>
 </div>
 
-<div>
-    <!--Выпадающий список для списка сотрудников-->
-    <div class="cssClassEmpl">
-        <!--<form th:action="@{/area}" th:object="${allUsers}" method="post" target="/area"> для открытия в новой вкладке-->
-        <form th:action="@{/area}" th:object="${allUsers}" method="post">
-            <input class="form-control" type="text" list="Employee" name="data" placeholder="Выбор сотрудника"/>
-            <datalist id="Employee">
-                <select>
-                    <option th:each="user : ${allUsers}"
-                            th:text="${user.getFIO()+' '+user.getPROF_DESCR()+' '+user.getAREA_DESCR_SHORT()}">
-                    </option>
-                </select>
-            </datalist>
-        </form>
-    </div>
+<h2 style="text-align: center">Акт выдачи</h2>
+
+<div class="cssClassEmpl h-100 d-flex align-items-center justify-content-center">
+    <!--<form th:action="@{/area}" th:object="${allUsers}" method="post" target="/area"> для открытия в новой вкладке-->
+
+    <form th:action="@{/inAct}" th:object="${allUsers}" method="post">
+
+        <div class="row">
+            <div class="col">
+                <input class="form-control" type="text" list="Employee" name="fio" placeholder="Выбор сотрудника"/>
+                <datalist id="Employee">
+                    <select>
+                        <option th:each="user : ${allUsers}"
+                                th:text="${user.getFIO()+' '+user.getPROF_DESCR()+' '+user.getAREA_DESCR_SHORT()}">
+                        </option>
+                    </select>
+                </datalist>
+            </div>
+
+            <div class="col">
+                <input type="number" class="form-control" name="numAct"  placeholder="Номер акта">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" name="imei1"  placeholder="Imei 1">
+            </div>
+
+            <div class="col">
+                <input type="text" class="form-control" name="imei2" placeholder="Imei 2">
+            </div>
+        </div>
+
+
+        <div class="row">
+            <button class="btn btn-success" value="Submit" type="submit">Генерация акта</button>
+            <!--                    <input type="button" class="form-control" text="Генерация акта">-->
+        </div>
+    </form>
+</div>
+
+<hr style="width: 100%; margin-top: 10px; border-top: 5px solid black; opacity: 100%">
+
+<h2 style="text-align: center">Акт сдачи</h2>
+
+
+<div class="cssClassEmpl h-100 d-flex align-items-center justify-content-center">
+    <!--<form th:action="@{/area}" th:object="${allUsers}" method="post" target="/area"> для открытия в новой вкладке-->
+
+    <form th:action="@{/outAct}" th:object="${allUsers}" method="post">
+
+        <div class="row">
+            <div class="col">
+                <input class="form-control" type="text" list="Employee" name="fio" placeholder="Выбор сотрудника"/>
+                <datalist>
+                    <select>
+                        <option th:each="user : ${allUsers}"
+                                th:text="${user.getFIO()+' '+user.getPROF_DESCR()+' '+user.getAREA_DESCR_SHORT()}">
+                        </option>
+                    </select>
+                </datalist>
+            </div>
+
+            <div class="col">
+                <input type="number" class="form-control" name="numAct"  placeholder="Номер акта">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" name="imei1"  placeholder="Imei 1">
+            </div>
+
+            <div class="col">
+                <input type="text" class="form-control" name="imei2" placeholder="Imei 2">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <input style="width: 425px" type="text" class="form-control" name="reason"  placeholder="Причина сдачи">
+            </div>
+        </div>
+
+        <div class="row">
+            <button class="btn btn-success" value="Submit" type="submit">Генерация акта</button>
+            <!--                    <input type="button" class="form-control" text="Генерация акта">-->
+        </div>
+    </form>
 
 </div>
 

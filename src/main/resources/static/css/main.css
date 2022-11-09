@@ -3,11 +3,14 @@
 }
 
 .cssClassEmpl{
-  margin-left: 10px;
 }
 
-.btn{
+a.btn{
   background: none;
   color: black;
   border: none;
+}
+
+.row{
+  margin-top: 10px;
 }
